@@ -8,13 +8,15 @@ function buscar() {
   });
 }
 
-/* Confirmar eliminar
-function eliminar(btn) {
-  if (confirm("Are you sure you want to delete this record?")) {
-    var fila = btn.closest("tr");
-    fila.remove();
-  }
-} */
+// Buscar en tabla
+function buscarpaci() {
+  let texto = document.getElementById("buscarpaci").value.toLowerCase();
+  let filas = document.querySelectorAll(".tablapaci tbody tr");
+
+  filas.forEach(fila => {
+    fila.style.display = fila.textContent.toLowerCase().includes(texto) ? "" : "none";
+  });
+}
 
 // ===== MODAL =====
 function abrirModal(id) {

@@ -6,24 +6,69 @@ include("conexion.php");
 ========================= */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  $id        = $_POST["IdSeguro"] ?? "";
-  $nombre    = $_POST["Nombre"] ?? "";
-  $tipoPlan  = $_POST["TipoPlan"] ?? "";
-  $cobertura = $_POST["CoberturaPorcentaje"] ?? "";
-  $telefono  = $_POST["Telefono"] ?? "";
+  $id = $_POST["IdCita"] ?? "";
+  $nombre = $_POST["Nombre"] ?? "";
+  $apellido = $_POST["Apellido"] ?? "";
+  $telefono = $_POST["Telefono"] ?? "";
+  $fechaNacimiento = $_POST["FechaNacimiento"] ?? "";
+  $cedula = $_POST["Cedula"] ?? "";
+  $asegurado = $_POST["Asegurado"] ?? "";
+  $doctor = $_POST["IdDoctor"] ?? "";
+  $metodoPago = $_POST["MetodoPago"] ?? "";
+  $observacion = $_POST["Observacion"] ?? "";
+  $consulta = $_POST["IdConsulta"] ?? "";
+  $fechaCita = $_POST["FechaCita"] ?? "";
+  $horaCita = $_POST['HoraCita'] ?: null;
 
   if ($id == "") {
-      $stmt = $conn->prepare("INSERT INTO seguros (Nombre, TipoPlan, CoberturaPorcentaje, Telefono) VALUES (?, ?, ?, ?)");
-      $stmt->execute([$nombre, $tipoPlan, $cobertura, $telefono]);
+
+      $stmt = $conn->prepare("INSERT INTO Citas
+      (Nombre,Apellido,Telefono,FechaNacimiento,Cedula,Asegurado,IdDoctor,MetodoPago,Observacion,IdConsulta,FechaCita,HoraCita)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+
+      /*var_dump($horaCita);
+      exit;*/
+      $stmt->execute([
+        $nombre,
+        $apellido,
+        $telefono,
+        $fechaNacimiento,
+        $cedula,
+        $asegurado,
+        $doctor,
+        $metodoPago,
+        $observacion,
+        $consulta,
+        $fechaCita,
+        $horaCita
+      ]);
+
   } else {
-      $stmt = $conn->prepare("UPDATE seguros SET Nombre=?, TipoPlan=?, CoberturaPorcentaje=?, Telefono=? WHERE IdSeguro=?");
-      $stmt->execute([$nombre, $tipoPlan, $cobertura, $telefono, $id]);
+
+      $stmt = $conn->prepare("UPDATE Citas SET
+      Nombre=?,Apellido=?,Telefono=?,FechaNacimiento=?,Cedula=?,Asegurado=?,IdDoctor=?,MetodoPago=?,Observacion=?,IdConsulta=?,FechaCita=?,HoraCita=?
+      WHERE IdCita=?");
+
+      $stmt->execute([
+        $nombre,
+        $apellido,
+        $telefono,
+        $fechaNacimiento,
+        $cedula,
+        $asegurado,
+        $doctor,
+        $metodoPago,
+        $observacion,
+        $consulta,
+        $fechaCita,
+        $horaCita,
+        $id
+      ]);
   }
 
-  header("Location: man-segu.php");
+  header("Location: pro-cita.php");
   exit();
 }
-
 
 
 /* =========================
@@ -31,33 +76,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ========================= */
 
 if (isset($_GET["delete"])) {
-  $stmt = $conn->prepare("DELETE FROM seguros WHERE IdSeguro=?");
+
+  $stmt = $conn->prepare("DELETE FROM Citas WHERE IdCita=?");
   $stmt->execute([$_GET["delete"]]);
-  header("Location: man-segu.php");
+
+  header("Location: pro-cita.php");
   exit();
 }
-
 
 
 /* =========================
    EDITAR
 ========================= */
+
 $editData = null;
 
 if (isset($_GET["edit"])) {
-  $stmt = $conn->prepare("SELECT * FROM seguros WHERE IdSeguro=?");
+
+  $stmt = $conn->prepare("SELECT * FROM Citas WHERE IdCita=?");
   $stmt->execute([$_GET["edit"]]);
+
   $editData = $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
 
 
 /* =========================
    LISTAR
 ========================= */
-$stmt = $conn->query("SELECT * FROM seguros");
-$seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $conn->query("SELECT * FROM Citas");
+$citas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,14 +126,18 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <a href="pro-cons.php" class="active">Procesos</a>
   <a href="settings.php">Configuración</a>
 
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
   </div>
-</div>
 
 <div class="main">
 
@@ -95,8 +150,8 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- MENU INTERNO -->
     <div class="tabs">
       <a href="pro-cons.php">Consultas</a>
-      <a href="pro-diag.php" class="active">Diagnósticos</a>
-      <a href="pro-cita.php">Citas</a>
+      <a href="pro-diag.php">Diagnósticos</a>
+      <a href="pro-cita.php" class="active">Citas</a>
       <a href="pro-coti.php">Cotizaciones</a>
     </div>
 
@@ -105,7 +160,7 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="dashboard-top">
       <div>
         <h2>Citas disponibles</h2>
-        <p><?= count($seguros) ?> citas registrados</p>
+        <p><?= count($citas) ?> citas registrados</p>
       </div>
       <div class="dashboard-buttons">
         <button class="btn btn-green" onclick="abrirModal('modal-form')">+ Añadir</button>
@@ -121,7 +176,7 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <form method="POST">
-          <input type="hidden" name="IdSeguro" value="<?= $editData['IdSeguro'] ?? '' ?>">
+          <input type="hidden" name="IdCita" value="<?= $editData['IdCita'] ?? '' ?>">
 
           <div class="form-row">
             <div class="form-group">
@@ -129,21 +184,69 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <input type="text" name="Nombre" value="<?= $editData['Nombre'] ?? '' ?>">
             </div>
             <div class="form-group">
-              <label>Tipo Plan</label>
-              <input type="text" name="TipoPlan" value="<?= $editData['TipoPlan'] ?? '' ?>">
+              <label>Apellido</label>
+              <input type="text" name="Apellido" value="<?= $editData['Apellido'] ?? '' ?>">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Cobertura</label>
-              <input type="number" name="CoberturaPorcentaje" value="<?= $editData['CoberturaPorcentaje'] ?? '' ?>">
-            </div>
-
-            <div class="form-group">
               <label>Teléfono</label>
               <input type="text" name="Telefono" value="<?= $editData['Telefono'] ?? '' ?>">
             </div>
+
+            <div class="form-group">
+              <label>Cédula</label>
+              <input type="text" name="Cedula" value="<?= $editData['Cedula'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha Nacimiento</label>
+              <input type="date" name="FechaNacimiento" value="<?= $editData['FechaNacimiento'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>Asegurado</label>
+              <input type="text" name="Asegurado" value="<?= $editData['Asegurado'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>ID Doctor</label>
+              <input type="number" name="IdDoctor" value="<?= $editData['IdDoctor'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>ID Consulta</label>
+              <input type="number" name="IdConsulta" value="<?= $editData['IdConsulta'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Fecha Cita</label>
+              <input type="date" name="FechaCita" value="<?= $editData['FechaCita'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>Hora Cita</label>
+              <input type="time" name="HoraCita" value="<?= $editData['HoraCita'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>Método de Pago</label>
+              <input type="text" name="MetodoPago" value="<?= $editData['MetodoPago'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Observación</label>
+              <input type="text" name="Observacion" value="<?= $editData['Observacion'] ?? '' ?>">
+            </div>          
           </div>
 
           <div class="form-buttons">
@@ -155,34 +258,46 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- TABLA -->
-    <table class="tabla">
+     <div class="tabla-scroll">
+    <table class="tablapaci">
       <thead>
         <tr>
-          <th>Código de Seguro</th>
-          <th>Nombre</th>
-          <th>Tipo Plan</th>
-          <th>Cobertura</th>
+          <th>ID</th>
+          <th>Paciente</th>
           <th>Teléfono</th>
+          <th>Cédula</th>
+          <th>Doctor</th>
+          <th>Consulta</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Método Pago</th>
+          <th>Asegurado</th>
           <th>Acciones</th>
         </tr>
       </thead>
     <tbody>
 
-<?php foreach($seguros as $fila): ?>
+<?php foreach($citas as $fila): ?>
       <tr>
-        <td><?= $fila['IdSeguro'] ?></td>
-        <td><?= $fila['Nombre'] ?></td>
-        <td><?= $fila['TipoPlan'] ?></td>
-        <td><?= $fila['CoberturaPorcentaje'] ?></td>
+        <td><?= $fila['IdCita'] ?></td>
+        <td><?= $fila['Nombre'] ?> <?= $fila['Apellido'] ?></td>
         <td><?= $fila['Telefono'] ?></td>
+        <td><?= $fila['Cedula'] ?></td>
+        <td><?= $fila['IdDoctor'] ?></td>
+        <td><?= $fila['IdConsulta'] ?></td>
+        <td><?= $fila['FechaCita'] ?></td>
+        <td><?= $fila['HoraCita'] ?></td>
+        <td><?= $fila['MetodoPago'] ?></td>
+        <td><?= $fila['Asegurado'] ?></td>
         <td>
-          <a href="?edit=<?= $fila['IdSeguro'] ?>" class="btn btn-small btn-green" >Edit</a>
-          <a href="?delete=<?= $fila['IdSeguro'] ?>" class="btn btn-small btn-red" onclick="return confirm('Are you sure you want to delete this record?')"> Delete </a>
+          <a href="?edit=<?= $fila['IdCita'] ?>" class="btn btn-small btn-green" >Edit</a>
+          <a href="?delete=<?= $fila['IdCita'] ?>" class="btn btn-small btn-red" onclick="return confirm('¿Deseas eliminar el registro correspondiente al siguiente id = <?= $fila['IdCitas'] ?> ?')"> Delete </a>
         </td>
       </tr>
 <?php endforeach; ?>
     </tbody>
     </table>
+    </div>
   </div>
 </div>
 <script src="../JS/app.js"></script>

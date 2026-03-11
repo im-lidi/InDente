@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $plan = $_POST["TipoPlan"] ?? "";
   $estado = $_POST["Estado"] ?? "";
 
-  if ($cedula == "") {
+  if ($_POST["editando"] == 0) {
 
       $stmt = $conn->prepare("INSERT INTO Pacientes 
       (Cedula, Nombre, Apellido, FechaNacimiento, Sexo, Telefono, Correo, Direccion, CondicionSalud, IdSeguro, TipoPlan, FechaRegistro, Estado)
@@ -93,14 +93,18 @@ $pacientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <a href="pro-cons.php">Procesos</a>
   <a href="settings.php">Configuración</a>
 
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
   </div>
-</div>
 
 <div class="main">
 
@@ -142,12 +146,12 @@ $pacientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <form method="POST">
-          <input type="hidden" name="Cedula" value="<?= $editData['Cedula'] ?? '' ?>">
+          <input type="hidden" name="editando" value="<?= $editData ? 1 : 0 ?>">
 
           <div class="form-row">
             <div class="form-group">
               <label>Cédula</label>
-              <input type="number" name="Cedula" value="<?= $editData['Cedula'] ?? '' ?>">
+              <input type="text" name="Cedula" value="<?= $editData['Cedula'] ?? '' ?>"<?= $editData ? 'readonly' : '' ?>>
             </div>
             <div class="form-group">
               <label>Nombre</label>
@@ -252,7 +256,7 @@ $pacientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <td><?= $fila['Estado'] ?></td>
         <td>
           <a href="?edit=<?= $fila['Cedula'] ?>" class="btn btn-small btn-green" >Edit</a>
-          <a href="?delete=<?= $fila['Cedula'] ?>" class="btn btn-small btn-red" onclick="return confirm('Are you sure you want to delete this record?')"> Delete </a>
+          <a href="?delete=<?= $fila['Cedula'] ?>" class="btn btn-small btn-red" onclick="return confirm('¿Deseas eliminar el registro correspondiente al siguiente id = <?= $fila['Cedula'] ?> ?')"> Delete </a>
         </td>
       </tr>
 <?php endforeach; ?>

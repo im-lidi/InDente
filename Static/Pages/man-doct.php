@@ -6,24 +6,44 @@ include("conexion.php");
 ========================= */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  $id        = $_POST["IdSeguro"] ?? "";
-  $nombre    = $_POST["Nombre"] ?? "";
-  $tipoPlan  = $_POST["TipoPlan"] ?? "";
-  $cobertura = $_POST["CoberturaPorcentaje"] ?? "";
-  $telefono  = $_POST["Telefono"] ?? "";
+  $idDoctor     = $_POST["IdDoctor"] ?? "";
+  $nombre       = $_POST["Nombre"] ?? "";
+  $apellido     = $_POST["Apellido"] ?? "";
+  $telefono     = $_POST["Telefono"] ?? "";
+  $correo       = $_POST["Correo"] ?? "";
+  $direccion    = $_POST["Direccion"] ?? "";
+  $estado       = $_POST["Estado"] ?? "";
+  $especialidad = $_POST["Especialidad"] ?? "";
+  $fechaIngreso = $_POST["FechaIngreso"] ?? "";
+  $idPersonal   = $_POST["IdPersonal"] ?? "";
+  $idHorario    = $_POST["IdHorario"] ?? "";
 
-  if ($id == "") {
-      $stmt = $conn->prepare("INSERT INTO seguros (Nombre, TipoPlan, CoberturaPorcentaje, Telefono) VALUES (?, ?, ?, ?)");
-      $stmt->execute([$nombre, $tipoPlan, $cobertura, $telefono]);
+  if ($idDoctor == "") {
+
+      $stmt = $conn->prepare("INSERT INTO Doctores
+      (Nombre,Apellido,Telefono,Correo,Direccion,Estado,Especialidad,FechaIngreso,IdPersonal,IdHorario)
+      VALUES (?,?,?,?,?,?,?,?,?,?)");
+
+      $stmt->execute([
+        $nombre,$apellido,$telefono,$correo,$direccion,
+        $estado,$especialidad,$fechaIngreso,$idPersonal,$idHorario
+      ]);
+
   } else {
-      $stmt = $conn->prepare("UPDATE seguros SET Nombre=?, TipoPlan=?, CoberturaPorcentaje=?, Telefono=? WHERE IdSeguro=?");
-      $stmt->execute([$nombre, $tipoPlan, $cobertura, $telefono, $id]);
+
+      $stmt = $conn->prepare("UPDATE Doctores SET
+      Nombre=?,Apellido=?,Telefono=?,Correo=?,Direccion=?,Estado=?,Especialidad=?,FechaIngreso=?,IdPersonal=?,IdHorario=?
+      WHERE IdDoctor=?");
+
+      $stmt->execute([
+        $nombre,$apellido,$telefono,$correo,$direccion,
+        $estado,$especialidad,$fechaIngreso,$idPersonal,$idHorario,$idDoctor
+      ]);
   }
 
-  header("Location: man-segu.php");
+  header("Location: man-doct.php");
   exit();
 }
-
 
 
 /* =========================
@@ -31,33 +51,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ========================= */
 
 if (isset($_GET["delete"])) {
-  $stmt = $conn->prepare("DELETE FROM seguros WHERE IdSeguro=?");
+
+  $stmt = $conn->prepare("DELETE FROM Doctores WHERE IdDoctor=?");
   $stmt->execute([$_GET["delete"]]);
-  header("Location: man-segu.php");
+
+  header("Location: man-doct.php");
   exit();
 }
-
 
 
 /* =========================
    EDITAR
 ========================= */
+
 $editData = null;
 
 if (isset($_GET["edit"])) {
-  $stmt = $conn->prepare("SELECT * FROM seguros WHERE IdSeguro=?");
+
+  $stmt = $conn->prepare("SELECT * FROM Doctores WHERE IdDoctor=?");
   $stmt->execute([$_GET["edit"]]);
+
   $editData = $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
 
 
 /* =========================
    LISTAR
 ========================= */
-$stmt = $conn->query("SELECT * FROM seguros");
-$seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$stmt = $conn->query("SELECT * FROM Doctores");
+$doctores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,14 +100,18 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <a href="pro-cons.php">Procesos</a>
   <a href="settings.php">Configuración</a>
 
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
   </div>
-</div>
 
 <div class="main">
 
@@ -108,7 +137,7 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="dashboard-top">
       <div>
         <h2>Doctores disponibles</h2>
-        <p><?= count($seguros) ?> doctores registrados</p>
+        <p><?= count($doctores) ?> doctores registrados</p>
       </div>
       <div class="dashboard-buttons">
         <button class="btn btn-green" onclick="abrirModal('modal-form')">+ Añadir</button>
@@ -124,7 +153,7 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <form method="POST">
-          <input type="hidden" name="IdSeguro" value="<?= $editData['IdSeguro'] ?? '' ?>">
+          <input type="hidden" name="IdDoctor" value="<?= $editData['IdSeguro'] ?? '' ?>">
 
           <div class="form-row">
             <div class="form-group">
@@ -132,20 +161,53 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <input type="text" name="Nombre" value="<?= $editData['Nombre'] ?? '' ?>">
             </div>
             <div class="form-group">
-              <label>Tipo Plan</label>
-              <input type="text" name="TipoPlan" value="<?= $editData['TipoPlan'] ?? '' ?>">
+              <label> Apellido</label>
+              <input type="text" name="Apellido" value="<?= $editData['Apellido'] ?? '' ?>">
+            </div>
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="text" name="Telefono" value="<?= $editData['Telefono'] ?? '' ?>">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Cobertura</label>
-              <input type="number" name="CoberturaPorcentaje" value="<?= $editData['CoberturaPorcentaje'] ?? '' ?>">
+              <label>Correo</label>
+              <input type="text" name="Correo" value="<?= $editData['Correo'] ?? '' ?>">
             </div>
 
             <div class="form-group">
-              <label>Teléfono</label>
-              <input type="text" name="Telefono" value="<?= $editData['Telefono'] ?? '' ?>">
+              <label>Dirección</label>
+              <input type="text" name="Direccion" value="<?= $editData['Direccion'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>Estado</label>
+              <input type="text" name="Estado" value="<?= $editData['Estado'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Especialidad</label>
+              <input type="text" name="Especialidad" value="<?= $editData['Especialidad'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha Ingreso</label>
+              <input type="date" name="FechaIngreso" value="<?= $editData['FechaIngreso'] ?? '' ?>">
+            </div>
+
+            <div class="form-group">
+              <label>ID Personal</label>
+              <input type="number" name="IdPersonal" value="<?= $editData['IdPersonal'] ?? '' ?>">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>ID Horario</label>
+              <input type="number" name="IdHorario" value="<?= $editData['IdHorario'] ?? '' ?>">
             </div>
           </div>
 
@@ -158,34 +220,48 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- TABLA -->
-    <table class="tabla">
+    <div class="tabla-scroll">
+    <table class="tablapaci">
       <thead>
         <tr>
-          <th>Código de Seguro</th>
+          <th>ID Doctor</th>
           <th>Nombre</th>
-          <th>Tipo Plan</th>
-          <th>Cobertura</th>
+          <th>Apellido</th>
           <th>Teléfono</th>
+          <th>Correo</th>
+          <th>Dirección</th>
+          <th>Estado</th>
+          <th>Especialidad</th>
+          <th>Fecha Ingreso</th>
+          <th>ID Personal</th>
+          <th>ID Horario</th>
           <th>Acciones</th>
         </tr>
       </thead>
     <tbody>
 
-<?php foreach($seguros as $fila): ?>
+<?php foreach($doctores as $fila): ?>
       <tr>
-        <td><?= $fila['IdSeguro'] ?></td>
+        <td><?= $fila['IdDoctor'] ?></td>
         <td><?= $fila['Nombre'] ?></td>
-        <td><?= $fila['TipoPlan'] ?></td>
-        <td><?= $fila['CoberturaPorcentaje'] ?></td>
+        <td><?= $fila['Apellido'] ?></td>
         <td><?= $fila['Telefono'] ?></td>
+        <td><?= $fila['Correo'] ?></td>
+        <td><?= $fila['Direccion'] ?></td>
+        <td><?= $fila['Estado'] ?></td>
+        <td><?= $fila['Especialidad'] ?></td>
+        <td><?= $fila['FechaIngreso'] ?></td>
+        <td><?= $fila['IdPersonal'] ?></td>
+        <td><?= $fila['IdHorario'] ?></td>
         <td>
-          <a href="?edit=<?= $fila['IdSeguro'] ?>" class="btn btn-small btn-green" >Edit</a>
-          <a href="?delete=<?= $fila['IdSeguro'] ?>" class="btn btn-small btn-red" onclick="return confirm('Are you sure you want to delete this record?')"> Delete </a>
+          <a href="?edit=<?= $fila['IdDoctor'] ?>" class="btn btn-small btn-green" >Edit</a>
+          <a href="?delete=<?= $fila['IdDoctor'] ?>" class="btn btn-small btn-red" onclick="return confirm('¿Deseas eliminar el registro correspondiente al siguiente id = <?= $fila['IdDoctor'] ?> ?')"> Delete </a>
         </td>
       </tr>
 <?php endforeach; ?>
     </tbody>
     </table>
+    </div>
   </div>
 </div>
 <script src="../JS/app.js"></script>

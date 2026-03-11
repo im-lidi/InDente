@@ -25,14 +25,17 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="pro-cons.php">Procesos</a>
     <a href="settings.php">Configuración</a>
 
-          <!-- AVATAR ABAJO -->
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
-  </div>
   </div>
   
 

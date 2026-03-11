@@ -4,8 +4,8 @@ include("conexion.php");
 /* =========================
    LISTAR SEGUROS
 ========================= */
-$stmt = $conn->query("SELECT * FROM seguros");
-$seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->query("SELECT * FROM materiales");
+$materiales = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,14 +25,17 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="pro-cons.php">Procesos</a>
     <a href="settings.php">Configuración</a>
 
-          <!-- AVATAR ABAJO -->
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
-  </div>
   </div>
   
 
@@ -63,7 +66,7 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="dashboard-top">
       <div>
         <h2>Materiales disponibles</h2>
-        <p><?= count($seguros) ?> materiales registrados</p>
+        <p><?= count($materiales) ?> materiales registrados</p>
    
       </div>
       <div class="toolbar">
@@ -76,23 +79,29 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <table class="tabla">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Pets</th>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cant. Actual</th>
+          <th>Cant. Mínima</th>
+          <th>Costo</th>
+          <th>Proveedor</th>
+          <th>Stock</th>
           </tr>
         </thead>
         <tbody>
 
-        <?php foreach($seguros as $fila): ?>
+        <?php foreach($materiales as $fila): ?>
 
         <tr>
-          <td><?= $fila['IdSeguro'] ?></td>
-          <td><?= $fila['Nombre'] ?></td>
-          <td><?= $fila['TipoPlan'] ?></td>
-          <td><?= $fila['CoberturaPorcentaje'] ?>%</td>
-          <td><?= $fila['Telefono'] ?></td>
+        <td><?= $fila['IdMaterial'] ?></td>
+        <td><?= $fila['Nombre'] ?></td>
+        <td><?= $fila['Descripcion'] ?></td>
+        <td><?= $fila['CantidadActual'] ?></td>
+        <td><?= $fila['CantidadMinima'] ?></td>
+        <td><?= $fila['Costo'] ?></td>
+        <td><?= $fila['IdProveedor'] ?></td>
+        <td><?= $fila['Stock'] ?></td>
         </tr>
 
         <?php endforeach; ?>

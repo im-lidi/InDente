@@ -4,8 +4,8 @@ include("conexion.php");
 /* =========================
    LISTAR SEGUROS
 ========================= */
-$stmt = $conn->query("SELECT * FROM seguros");
-$seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->query("SELECT * FROM pacientes");
+$pacientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,14 +25,17 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <a href="pro-cons.php">Procesos</a>
     <a href="settings.php">Configuración</a>
 
-          <!-- AVATAR ABAJO -->
-  <div class="sidebar-avatar">
-    <div class="avatar">LS</div>
-    <div class="avatar-info">
-      <span class="avatar-name">Lidiana Salazar</span>
-      <span class="avatar-role">Admin</span>
+    <!-- AVATAR ABAJO -->
+    <div style="margin-top:auto;">
+      <a href="../../../../Index.html" class="down">Come back</a>
+        <div class="sidebar-avatar">
+          <div class="avatar">LS</div>
+          <div class="avatar-info">
+            <span class="avatar-name">Lidiana Salazar</span>
+            <span class="avatar-role">Admin</span>
+          </div>
+        </div>
     </div>
-  </div>
   </div>
   
 
@@ -63,43 +66,60 @@ $seguros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="dashboard-top">
       <div>
         <h2>Pacientes disponibles</h2>
-        <p><?= count($seguros) ?> pacientes registrados</p>
+        <p><?= count($pacientes) ?> pacientes registrados</p>
    
       </div>
       <div class="toolbar">
-        <input type="text" id="buscar" placeholder="Search..." onkeyup="buscar()">
+        <input type="text" id="buscarpaci" placeholder="Search..." onkeyup="buscarpaci()">
       </div>
     </div>
 
       
       <!-- TABLA OWNERS -->
-      <table class="tabla">
+       <div class="tabla-scroll">
+      <table class="tablapaci">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th>Pets</th>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Fecha Nacimiento</th>
+          <th>Sexo</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
+          <th>Dirección</th>
+          <th>Condición Salud</th>
+          <th>ID Seguro</th>
+          <th>Tipo Plan</th>
+          <th>Fecha Registro</th>
+          <th>Estado</th>
           </tr>
         </thead>
         <tbody>
 
-        <?php foreach($seguros as $fila): ?>
+        <?php foreach($pacientes as $fila): ?>
 
         <tr>
-          <td><?= $fila['IdSeguro'] ?></td>
-          <td><?= $fila['Nombre'] ?></td>
-          <td><?= $fila['TipoPlan'] ?></td>
-          <td><?= $fila['CoberturaPorcentaje'] ?>%</td>
-          <td><?= $fila['Telefono'] ?></td>
+        <td><?= $fila['Cedula'] ?></td>
+        <td><?= $fila['Nombre'] ?></td>
+        <td><?= $fila['Apellido'] ?></td>
+        <td><?= $fila['FechaNacimiento'] ?></td>
+        <td><?= $fila['Sexo'] ?></td>
+        <td><?= $fila['Telefono'] ?></td>
+        <td><?= $fila['Correo'] ?></td>
+        <td><?= $fila['Direccion'] ?></td>
+        <td><?= $fila['CondicionSalud'] ?></td>
+        <td><?= $fila['IdSeguro'] ?></td>
+        <td><?= $fila['TipoPlan'] ?></td>
+        <td><?= $fila['FechaRegistro'] ?></td>
+        <td><?= $fila['Estado'] ?></td>
         </tr>
 
         <?php endforeach; ?>
 
         </tbody>
       </table>      
-
+      </div>
     </div>
   </div>
 

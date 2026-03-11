@@ -1,3 +1,10 @@
+/* ===== IMPORTACIÓN DE FUENTES InDente ===== */
+@font-face {
+  font-family: 'Tan Pearl'; 
+  src: url('tan-pearl.otf') format('opentype');
+}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
 /* ===== RESET ===== */
 * {
   margin: 0;
@@ -6,7 +13,8 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  /* CAMBIO: Fuente Outfit y color de fondo de tu marca */
+  font-family: 'Outfit', sans-serif;
   background: #f1f5f9;
   color: #323d53;
 }
@@ -23,7 +31,8 @@ a {
   left: 0;
   width: 220px;
   height: 100%;
-  background: #323d53;
+  /* CAMBIO: Azul oscuro de InDente */
+  background: #0f172a;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
@@ -33,7 +42,9 @@ a {
   color: #fff;
   text-align: center;
   margin-bottom: 30px;
-  font-size: 20px;
+  /* CAMBIO: Fuente de lujo Tan Pearl */
+  font-family: 'Tan Pearl', serif;
+  font-size: 24px;
 }
 
 .sidebar h2 a {
@@ -46,23 +57,38 @@ a {
   text-decoration: none;
   padding: 12px 25px;
   font-size: 14px;
+  transition: 0.3s;
 }
 
 .sidebar a:hover {
-  background: #434e64;
+  /* CAMBIO: Sutil transparencia blanca */
+  background: rgba(255, 255, 255, 0.05);
   color: #fff;
 }
 
 .sidebar a.active {
-  background: #434e64;
+  /* CAMBIO: Azul primario de InDente */
+  background: #19326a;
   color: #fff;
+}
+
+a.down {
+  text-align: center;
+  color: #fff;
+  font-size: 15px;
+  margin: 25px 9px;
+  /* CAMBIO: Azul primario */
+  background-color: #19326a;
+  border-radius: 50px;
+  border: 0.5px;
+  padding: 8px;
 }
 
 /* AVATAR EN SIDEBAR */
 .sidebar-avatar {
   margin-top: auto;
   padding: 15px 20px;
-  border-top: 1px solid #334155;
+  border-top: 1px solid rgba(255,255,255,0.1);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -72,7 +98,8 @@ a {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #434e64;
+  /* CAMBIO: Azul primario */
+  background: #19326a;
   color: #fff;
   display: flex;
   align-items: center;
@@ -120,16 +147,18 @@ a {
 }
 
 .header h1 {
-  font-size: 18px;
-  color: #323d53;
+  /* CAMBIO: Fuente de lujo */
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  color: #0f172a;
 }
 
 .header h1 a {
-  color: #323d53;
+  color: #0f172a;
 }
 
 .header h1 a:hover {
-  color: #434e6481;
+  color: #19326a;
 }
 
 .fecha {
@@ -156,12 +185,12 @@ a {
 }
 
 .tabs a:hover {
-  color: #526180d2;
+  color: #19326a;
 }
 
 .tabs a.active {
-  color: #526180d2;
-  border-bottom-color: #434e64;
+  color: #19326a;
+  border-bottom-color: #19326a;
 }
 
 /* ===== AREA DE CONTENIDO ===== */
@@ -178,45 +207,49 @@ a {
 }
 
 .toolbar input[type="text"] {
-  padding: 8px 12px;
+  padding: 10px 15px;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 14px;
   width: 500px;
+  background: #fff;
 }
 
 .toolbar input[type="text"]:focus {
   outline: none;
-  border-color: #323d53;
+  border-color: #19326a;
 }
 
 /* ===== BOTONES ===== */
 .btn {
   padding: 8px 16px;
   border: none;
-  border-radius: 6px;
+  /* CAMBIO: Bordes redondeados InDente */
+  border-radius: 50px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .btn-green {
-  background: #434e64;
+  /* CAMBIO: Azul InDente */
+  background: #19326a;
   color: #fff;
 }
 
 .btn-green:hover {
-  background: #526180d2;
+  background: #0f172a;
 }
 
 .btn-search {
   background: #ffffff;
-  border: #bfc8d8 solid 0.06px;
+  border: #bfc8d8 solid 1px;
   color: #01000c;
 }
 
 .btn-search:hover {
-  background: #52618010;
+  background: #f8fafc;
 }
 
 .btn-gray {
@@ -234,11 +267,11 @@ a {
 }
 
 .btn-red:hover {
-  background: #80000077;
+  background: #5d0000;
 }
 
 .btn-small {
-  padding: 5px 10px;
+  padding: 5px 15px;
   font-size: 12px;
 }
 
@@ -246,7 +279,7 @@ a {
   background: none;
   border: 1px solid #e2e8f0;
   padding: 5px 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -259,7 +292,8 @@ a {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
-  border-radius: 8px;
+  /* CAMBIO: Radio más grande */
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
 }
@@ -267,15 +301,16 @@ a {
 .tabla th {
   background: #f8fafc;
   text-align: left;
-  padding: 12px 15px;
+  padding: 15px;
   font-size: 12px;
-  color: #64748b;
+  color: #0f172a;
+  font-weight: 700;
   text-transform: uppercase;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .tabla td {
-  padding: 12px 15px;
+  padding: 15px;
   font-size: 14px;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -288,7 +323,7 @@ a {
   width: 2000px;
   border-collapse: collapse;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
 }
@@ -296,15 +331,16 @@ a {
 .tablapaci th {
   background: #f8fafc;
   text-align: left;
-  padding: 12px 15px;
+  padding: 15px;
   font-size: 12px;
-  color: #64748b;
+  color: #0f172a;
+  font-weight: 700;
   text-transform: uppercase;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .tablapaci td {
-  padding: 12px 15px;
+  padding: 15px;
   font-size: 14px;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -321,15 +357,15 @@ a {
 /* ===== BADGES DE ESTADO ===== */
 .badge {
   display: inline-block;
-  padding: 3px 10px;
-  border-radius: 12px;
+  padding: 4px 12px;
+  border-radius: 50px;
   font-size: 12px;
   font-weight: 600;
 }
 
 .badge-blue {
   background: #eff6ff;
-  color: #2563eb;
+  color: #19326a;
 }
 
 .badge-green {
@@ -355,10 +391,11 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(15, 23, 42, 0.6);
   z-index: 1000;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(4px);
 }
 
 .modal-overlay.show {
@@ -367,23 +404,25 @@ a {
 
 .modal {
   background: #fff;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 500px;
   max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 20px;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .modal-header h3 {
-  font-size: 16px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 18px;
 }
 
 .modal-close {
@@ -395,7 +434,7 @@ a {
 }
 
 .modal-close:hover {
-  color: #323d53;
+  color: #0f172a;
 }
 
 .modal form,
@@ -412,15 +451,16 @@ a {
 .formulario {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 25px;
   margin-top: 25px;
 }
 
 .formulario h3 {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #323d53;
+  font-family: 'Tan Pearl', serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #0f172a;
 }
 
 .form-row {
@@ -439,26 +479,29 @@ a {
 
 .form-group label {
   font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
-  margin-bottom: 4px;
+  font-weight: 700;
+  color: #0f172a;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 14px;
   font-family: inherit;
+  background: #f8fafc;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #323d53;
+  border-color: #19326a;
+  background: #fff;
 }
 
 .form-buttons {
@@ -477,8 +520,10 @@ a {
 }
 
 .dashboard-top h2 {
-  font-size: 22px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 26px;
   margin-bottom: 5px;
+  color: #0f172a;
 }
 
 .dashboard-top p {
@@ -492,16 +537,16 @@ a {
 }
 
 .search-input {
-  padding: 8px 12px;
+  padding: 8px 15px;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 50px;
   font-size: 14px;
   width: 200px;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #323d53;
+  border-color: #19326a;
 }
 
 /* TARJETAS */
@@ -515,25 +560,31 @@ a {
 .card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 20px;
   display: block;
+  transition: 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .card:hover {
-  border-color: #323d53;
+  transform: translateY(-5px);
+  border-color: #19326a;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
   color: #64748b;
   margin-bottom: 10px;
 }
 
 .card-number {
   font-size: 32px;
-  font-weight: bold;
-  color: #323d53;
+  font-weight: 700;
+  color: #0f172a;
   margin-bottom: 5px;
 }
 
@@ -557,7 +608,7 @@ a {
 .calendario-box {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 20px;
 }
 
@@ -570,13 +621,14 @@ a {
 
 .calendario-header h3 {
   flex: 1;
-  font-size: 16px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 18px;
 }
 
 .calendario-header select {
   padding: 5px 10px;
   border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 13px;
 }
 
@@ -589,14 +641,14 @@ a {
   padding: 10px;
   font-size: 12px;
   color: #64748b;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .calendario td {
   padding: 8px;
   text-align: center;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
 }
 
@@ -605,7 +657,7 @@ a {
 }
 
 .calendario td.today {
-  background: #323d53;
+  background: #19326a;
   color: #fff;
 }
 
@@ -633,12 +685,13 @@ a {
 .citas-hoy {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 20px;
 }
 
 .citas-hoy h3 {
-  font-size: 16px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 18px;
   margin-bottom: 15px;
 }
 
@@ -647,20 +700,24 @@ a {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
   margin-bottom: 10px;
   cursor: pointer;
+  background: #fcfdfe;
+  transition: 0.3s;
 }
 
 .cita-item:hover {
-  background: #f8fafc;
+  background: #fff;
+  border-color: #19326a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .cita-hora {
-  font-weight: bold;
+  font-weight: 700;
   font-size: 14px;
-  color: #323d53;
+  color: #19326a;
   min-width: 50px;
 }
 
@@ -671,6 +728,7 @@ a {
 .cita-info strong {
   display: block;
   font-size: 14px;
+  color: #0f172a;
 }
 
 .cita-info small {
@@ -686,17 +744,19 @@ a {
 }
 
 .settings-section h3 {
-  font-size: 16px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 18px;
   margin-bottom: 15px;
-  color: #323d53;
+  color: #0f172a;
 }
 
 .settings-card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 25px;
   width: 500px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .settings-form {
@@ -713,7 +773,8 @@ a {
 }
 
 .profile-info h4 {
-  font-size: 18px;
+  font-family: 'Tan Pearl', serif;
+  font-size: 20px;
   margin-bottom: 4px;
 }
 
@@ -739,6 +800,7 @@ a {
   display: block;
   font-size: 14px;
   margin-bottom: 3px;
+  color: #0f172a;
 }
 
 .settings-option p {
@@ -785,7 +847,7 @@ a {
 }
 
 input:checked + .slider {
-  background: #323d53;
+  background: #19326a;
 }
 
 input:checked + .slider::before {
